@@ -1,0 +1,14 @@
+{
+  "hero": {
+    "headline": "Mission Control for Global Systems",
+    "subheadline": "Deploy, manage, and operate MDM and Video SDK infrastructure across regions — from a single control layer.",
+    "primaryCTA": "Explore the Platform",
+    "secondaryCTA": "View Documentation",
+    "status": {
+      "online": "Platform Online",
+      "regions": "85 Regions Active",
+      "uptime": "99.99% Uptime",
+      "latency": "Latency <50ms"
+    }
+  }
+}

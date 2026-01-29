@@ -1,0 +1,9 @@
+@import './tailwind.css';
+
+[dir="rtl"] .rtl-flip {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .rtl-text {
+  text-align: right;
+}
