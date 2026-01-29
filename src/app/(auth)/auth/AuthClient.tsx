@@ -16,6 +16,8 @@ import {
 import { auth } from '@/lib/firebase';
 import Icon from '@/components/ui/AppIcon';
 
+const isFirebaseConfigured = !!auth;
+
 export default function AuthPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -143,6 +145,10 @@ export default function AuthPage() {
   };
 
   const handleGoogleAuth = async () => {
+    if (!auth) {
+      setError('Firebase is not configured. Please add Firebase credentials.');
+      return;
+    }
     setError('');
     setMessage('');
     setLoading(true);
@@ -164,6 +170,10 @@ export default function AuthPage() {
   };
 
   const handleEmailAuth = async () => {
+    if (!auth) {
+      setError('Firebase is not configured. Please add Firebase credentials.');
+      return;
+    }
     setError('');
     setMessage('');
 
@@ -206,6 +216,10 @@ export default function AuthPage() {
   };
 
   const resendVerification = async () => {
+    if (!auth) {
+      setError('Firebase is not configured. Please add Firebase credentials.');
+      return;
+    }
     setError('');
     setMessage('');
     setLoading(true);
@@ -231,6 +245,10 @@ export default function AuthPage() {
   };
 
   const checkVerificationStatus = async () => {
+    if (!auth) {
+      setError('Firebase is not configured. Please add Firebase credentials.');
+      return;
+    }
     setError('');
     setMessage('');
     setLoading(true);

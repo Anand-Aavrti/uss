@@ -431,7 +431,7 @@ const Header = () => {
         cancelText="Cancel"
         onCancel={() => setShowLogoutConfirm(false)}
         onConfirm={async () => {
-          await signOut(auth);
+          if (auth) await signOut(auth);
           setShowLogoutConfirm(false);
         }}
       />
