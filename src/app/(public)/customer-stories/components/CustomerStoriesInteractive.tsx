@@ -294,17 +294,17 @@ const CustomerStoriesInteractive = () => {
 
   if (!isHydrated) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-[#0B1220]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-          <div className="h-64 bg-muted rounded-lg animate-pulse mb-12"></div>
+          <div className="h-64 bg-[#1B365D]/20 rounded-2xl animate-pulse mb-12"></div>
           <div className="grid lg:grid-cols-4 gap-8">
             <div className="lg:col-span-1">
-              <div className="h-96 bg-muted rounded-lg animate-pulse"></div>
+              <div className="h-96 bg-[#1B365D]/20 rounded-2xl animate-pulse"></div>
             </div>
             <div className="lg:col-span-3">
               <div className="grid md:grid-cols-2 gap-6">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="h-96 bg-muted rounded-lg animate-pulse"></div>
+                  <div key={i} className="h-96 bg-[#1B365D]/20 rounded-2xl animate-pulse"></div>
                 ))}
               </div>
             </div>
@@ -315,23 +315,23 @@ const CustomerStoriesInteractive = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#0B1220]">
       {/* Featured Testimonial */}
-      <section className="bg-background py-12">
+      <section className="bg-[#0B1220] pt-[74px] pb-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <FeaturedTestimonial testimonial={featuredTestimonial} />
         </div>
       </section>
 
       {/* Metrics Dashboard */}
-      <section className="bg-muted py-12">
+      <section className="bg-[#08111f] py-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <MetricsDashboard />
         </div>
       </section>
 
       {/* Stories Section */}
-      <section className="bg-background py-12">
+      <section className="bg-[#0B1220] py-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-4 gap-8">
             {/* Filters Sidebar */}
@@ -346,25 +346,24 @@ const CustomerStoriesInteractive = () => {
               {/* View Controls */}
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-foreground">Customer Success Stories</h2>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <h2 className="text-2xl font-bold text-white">Customer Success Stories</h2>
+                  <p className="text-sm text-white/50 mt-1">
                     Showing {filteredStories.length} of {allStories.length} stories
                   </p>
                 </div>
                 <button
                   onClick={toggleViewMode}
-                  className="p-2 rounded-md border border-border hover:bg-muted transition-colors duration-300"
+                  className="p-2 rounded-xl border border-white/10 hover:bg-white/5 hover:border-[#0EA5E9]/30 transition-colors duration-300"
                   aria-label={`Switch to ${viewMode === 'grid' ? 'list' : 'grid'} view`}
                 >
                   <Icon
                     name={viewMode === 'grid' ? 'ListBulletIcon' : 'Squares2X2Icon'}
                     size={20}
-                    className="text-foreground"
+                    className="text-white/70"
                   />
                 </button>
               </div>
 
-              {/* Stories Display */}
               {filteredStories.length > 0 ? (
                 <div className={viewMode === 'grid' ? 'grid md:grid-cols-2 gap-6' : 'space-y-6'}>
                   {filteredStories.map((story) => (
@@ -372,25 +371,13 @@ const CustomerStoriesInteractive = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12">
-                  <Icon
-                    name="FolderOpenIcon"
-                    size={48}
-                    className="text-muted-foreground mx-auto mb-4"
-                  />
-                  <h3 className="text-xl font-semibold text-foreground mb-2">No Stories Found</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Try adjusting your filters to see more results
-                  </p>
+                <div className="text-center py-16">
+                  <Icon name="FolderOpenIcon" size={48} className="text-white/30 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-white mb-2">No Stories Found</h3>
+                  <p className="text-white/50 mb-6">Try adjusting your filters to see more results</p>
                   <button
-                    onClick={() =>
-                      handleFilterChange({
-                        industry: 'all',
-                        region: 'all',
-                        useCase: 'all',
-                      })
-                    }
-                    className="px-6 py-3 bg-accent text-accent-foreground rounded-md hover:bg-accent/90 transition-colors duration-300"
+                    onClick={() => handleFilterChange({ industry: 'all', region: 'all', useCase: 'all' })}
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] text-white font-semibold hover:shadow-lg hover:shadow-[#0EA5E9]/25 transition-all duration-300"
                   >
                     Reset Filters
                   </button>
@@ -402,28 +389,34 @@ const CustomerStoriesInteractive = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-br from-primary to-secondary py-16">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-primary-foreground mb-4">
-            Ready to Write Your Success Story?
-          </h2>
-          <p className="text-lg text-primary-foreground/10 mb-8">
-            Join thousands of companies worldwide who trust USS for their global infrastructure
-            needs
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <a
-              href="/pricing-plans"
-              className="w-full sm:w-auto px-8 py-4 bg-white text-primary rounded-md font-semibold hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              Start Free Trial
-            </a>
-            <a
-              href="/global-support"
-              className="w-full sm:w-auto px-8 py-4 bg-transparent text-primary-foreground border-2 border-primary-foreground rounded-md font-semibold hover:bg-white/10 transition-all duration-300"
-            >
-              Contact Sales
-            </a>
+      <section className="relative bg-[#08111f] py-20 overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[200px] bg-[#0EA5E9]/8 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative max-w-4xl mx-auto px-6 lg:px-8">
+          <div className="relative rounded-3xl backdrop-blur-xl bg-gradient-to-br from-[#1B365D]/40 to-[#0B1220]/60 border border-white/10 p-12 text-center overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0EA5E9]/8 via-transparent to-[#1B365D]/8 pointer-events-none" />
+            <div className="relative">
+              <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+                Ready to Write Your Success Story?
+              </h2>
+              <p className="text-lg text-white/60 mb-8">
+                Join thousands of companies worldwide who trust USS for their global infrastructure needs
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a
+                  href="/pricing-plans"
+                  className="group relative w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-white overflow-hidden shadow-lg shadow-[#0EA5E9]/25 hover:shadow-[#0EA5E9]/40 transition-all duration-300 inline-flex items-center justify-center gap-2"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0EA5E9] to-[#1B365D]" />
+                  <span className="relative">Start Free Trial</span>
+                </a>
+                <a
+                  href="/global-support"
+                  className="w-full sm:w-auto px-8 py-4 rounded-xl font-semibold border-2 border-white/20 text-white hover:bg-white/5 hover:border-[#0EA5E9]/50 transition-all duration-300 inline-flex items-center justify-center"
+                >
+                  Contact Sales
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

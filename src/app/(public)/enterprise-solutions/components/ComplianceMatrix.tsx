@@ -87,7 +87,7 @@ export default function ComplianceMatrix() {
           <Icon
             name="CheckCircleIcon"
             size={20}
-            className="text-success"
+            className="text-green-400"
             variant="solid"
           />
         );
@@ -96,7 +96,7 @@ export default function ComplianceMatrix() {
           <Icon
             name="ClockIcon"
             size={20}
-            className="text-warning"
+            className="text-yellow-400"
             variant="solid"
           />
         );
@@ -105,7 +105,7 @@ export default function ComplianceMatrix() {
           <Icon
             name="CalendarIcon"
             size={20}
-            className="text-muted-foreground"
+            className="text-white/40"
           />
         );
       default:
@@ -116,11 +116,11 @@ export default function ComplianceMatrix() {
   const getStatusText = (status: string) => {
     switch (status) {
       case "certified":
-        return "Certified";
+        return <span className="text-green-400">Certified</span>;
       case "in-progress":
-        return "In Progress";
+        return <span className="text-yellow-400">In Progress</span>;
       case "planned":
-        return "Planned";
+        return <span className="text-white/40">Planned</span>;
       default:
         return "";
     }
@@ -135,31 +135,35 @@ export default function ComplianceMatrix() {
         }));
 
   return (
-    <section className="bg-background py-20">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="relative bg-[#08111f] py-20 overflow-hidden">
+      {/* Decorative orb */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 bg-[#0EA5E9]/6 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 z-10">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center space-x-2 bg-primary/10 px-4 py-2 rounded-full mb-6">
-            <Icon name="DocumentCheckIcon" size={20} className="text-primary" />
-            <span className="text-sm font-medium text-primary">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0EA5E9]/10 border border-[#0EA5E9]/25 mb-6">
+            <Icon name="DocumentCheckIcon" size={16} className="text-[#0EA5E9]" />
+            <span className="text-sm font-medium text-[#0EA5E9]">
               Compliance Matrix
             </span>
           </div>
-          <h2 className="text-3xl lg:text-4xl font-heading font-bold text-foreground mb-4">
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
             Global Compliance Coverage
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg text-white/60 max-w-3xl mx-auto">
             View our comprehensive compliance certifications across all major
             regions and standards.
           </p>
         </div>
 
+        {/* Region filter */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           <button
             onClick={() => setSelectedRegion("all")}
-            className={`px-6 py-2.5 rounded-lg font-medium transition-all duration-300 ${
+            className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
               selectedRegion === "all"
-                ? "bg-primary text-primary-foreground shadow-md"
-                : "bg-card text-foreground hover:bg-muted border border-border"
+                ? "bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] text-white shadow-lg shadow-[#0EA5E9]/20"
+                : "bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white"
             }`}
           >
             All Regions
@@ -168,10 +172,10 @@ export default function ComplianceMatrix() {
             <button
               key={region}
               onClick={() => setSelectedRegion(region)}
-              className={`px-6 py-2.5 rounded-lg font-medium transition-all duration-300 ${
+              className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
                 selectedRegion === region
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "bg-card text-foreground hover:bg-muted border border-border"
+                  ? "bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] text-white shadow-lg shadow-[#0EA5E9]/20"
+                  : "bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white"
               }`}
             >
               {region}
@@ -179,19 +183,20 @@ export default function ComplianceMatrix() {
           ))}
         </div>
 
-        <div className="bg-card rounded-xl shadow-lg overflow-hidden border border-border">
+        {/* Compliance table */}
+        <div className="backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl border border-white/10 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-surface">
+              <thead className="bg-[#1B365D]/30">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-white/80">
                     Compliance Standard
                   </th>
                   {(selectedRegion === "all" ? regions : [selectedRegion]).map(
                     (region) => (
                       <th
                         key={region}
-                        className="px-6 py-4 text-center text-sm font-semibold text-foreground"
+                        className="px-6 py-4 text-center text-sm font-semibold text-white/80"
                       >
                         {region}
                       </th>
@@ -199,25 +204,25 @@ export default function ComplianceMatrix() {
                   )}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <tbody className="divide-y divide-white/10">
                 {filteredData.map((item, index) => (
                   <tr
                     key={index}
-                    className="hover:bg-surface/50 transition-colors duration-200"
+                    className="hover:bg-[#0EA5E9]/5 transition-colors duration-200"
                   >
                     <td className="px-6 py-4">
-                      <div className="font-semibold text-foreground mb-1">
+                      <div className="font-semibold text-white mb-1">
                         {item.standard}
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-white/50">
                         {item.description}
                       </div>
                     </td>
                     {item.regions.map((region, idx) => (
                       <td key={idx} className="px-6 py-4 text-center">
-                        <div className="inline-flex flex-col items-center space-y-1">
+                        <div className="inline-flex flex-col items-center gap-1">
                           {getStatusIcon(region.status)}
-                          <span className="text-xs font-medium text-muted-foreground">
+                          <span className="text-xs font-medium">
                             {getStatusText(region.status)}
                           </span>
                         </div>
@@ -230,50 +235,53 @@ export default function ComplianceMatrix() {
           </div>
         </div>
 
-        <div className="mt-8 flex items-start space-x-6 bg-surface rounded-xl p-6">
-          <div className="flex-shrink-0">
-            <Icon
-              name="InformationCircleIcon"
-              size={24}
-              className="text-accent"
-            />
-          </div>
-          <div className="flex-1">
-            <h3 className="text-lg font-semibold text-foreground mb-2">
-              Legend
-            </h3>
-            <div className="grid sm:grid-cols-3 gap-4">
-              <div className="flex items-center space-x-2">
-                <Icon
-                  name="CheckCircleIcon"
-                  size={20}
-                  className="text-success"
-                  variant="solid"
-                />
-                <span className="text-sm text-foreground">
-                  Certified - Active compliance
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Icon
-                  name="ClockIcon"
-                  size={20}
-                  className="text-warning"
-                  variant="solid"
-                />
-                <span className="text-sm text-foreground">
-                  In Progress - Audit underway
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Icon
-                  name="CalendarIcon"
-                  size={20}
-                  className="text-muted-foreground"
-                />
-                <span className="text-sm text-foreground">
-                  Planned - Scheduled for certification
-                </span>
+        {/* Legend */}
+        <div className="mt-6 backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl border border-white/10 p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0">
+              <Icon
+                name="InformationCircleIcon"
+                size={22}
+                className="text-[#0EA5E9]"
+              />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-base font-semibold text-white mb-3">
+                Legend
+              </h3>
+              <div className="grid sm:grid-cols-3 gap-4">
+                <div className="flex items-center gap-2">
+                  <Icon
+                    name="CheckCircleIcon"
+                    size={18}
+                    className="text-green-400"
+                    variant="solid"
+                  />
+                  <span className="text-sm text-white/70">
+                    Certified — Active compliance
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Icon
+                    name="ClockIcon"
+                    size={18}
+                    className="text-yellow-400"
+                    variant="solid"
+                  />
+                  <span className="text-sm text-white/70">
+                    In Progress — Audit underway
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Icon
+                    name="CalendarIcon"
+                    size={18}
+                    className="text-white/40"
+                  />
+                  <span className="text-sm text-white/70">
+                    Planned — Scheduled for certification
+                  </span>
+                </div>
               </div>
             </div>
           </div>

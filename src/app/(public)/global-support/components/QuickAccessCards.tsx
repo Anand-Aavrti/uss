@@ -133,37 +133,28 @@ export default function QuickAccessCards({
   };
 
   return (
-    <section className={`py-16 bg-background ${isRTL ? "rtl" : "ltr"}`}>
+    <section className={`py-16 bg-[#08111f] ${isRTL ? 'rtl' : 'ltr'}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
-          {currentContent.title}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h2 className="text-3xl font-bold text-white mb-8 text-center">{currentContent.title}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {currentContent.cards.map((card, index) => (
             <div
               key={index}
               onClick={() => handleCardClick(index)}
-              className="bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-border hover:border-accent group"
+              className="group relative backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl p-6 border border-white/10 hover:border-[#0EA5E9]/40 hover:shadow-xl hover:shadow-[#0EA5E9]/10 transition-all duration-300 cursor-pointer"
             >
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center group-hover:bg-accent/20 transition-colors duration-300">
-                  <Icon
-                    name={card.icon as any}
-                    size={24}
-                    className="text-accent"
-                  />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#0EA5E9]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <div className="relative flex justify-between items-start mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#0EA5E9]/20 to-[#1B365D]/30 rounded-xl flex items-center justify-center border border-[#0EA5E9]/20 group-hover:border-[#0EA5E9]/50 transition-colors">
+                  <Icon name={card.icon as any} size={22} className="text-[#0EA5E9]" />
                 </div>
-                <span className="text-xs font-medium text-success bg-success/10 px-2 py-1 rounded-full">
+                <span className="text-xs font-medium text-green-400 bg-green-500/10 border border-green-500/20 px-2.5 py-1 rounded-full">
                   {card.badge}
                 </span>
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">
-                {card.title}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                {card.description}
-              </p>
-              <button className="w-full py-2 px-4 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors duration-300 text-sm font-medium">
+              <h3 className="relative text-base font-semibold text-white mb-2">{card.title}</h3>
+              <p className="relative text-sm text-white/55 mb-5 leading-relaxed">{card.description}</p>
+              <button className="relative w-full py-2.5 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] text-white shadow-lg shadow-[#0EA5E9]/20 hover:shadow-[#0EA5E9]/35 transition-all duration-300">
                 {card.action}
               </button>
             </div>

@@ -10,10 +10,8 @@ export const metadata: Metadata = {
 
 export default function EnterpriseSolutionsPage() {
   return (
-    <main className="min-h-screen bg-background">
-      <div >
-        <EnterpriseSolutionsInteractive />
-      </div>
+    <main className="min-h-screen bg-[#0B1220]">
+      <EnterpriseSolutionsInteractive />
     </main>
   );
 }

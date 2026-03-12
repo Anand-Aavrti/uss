@@ -208,3 +208,36 @@ body::before {
       transform var(--transition-base);
   }
 }
+
+@keyframes marqueeLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marqueeRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.marquee {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-left {
+  animation: marqueeLeft 25s linear infinite;
+}
+
+.marquee-right {
+  animation: marqueeRight 25s linear infinite;
+}
+

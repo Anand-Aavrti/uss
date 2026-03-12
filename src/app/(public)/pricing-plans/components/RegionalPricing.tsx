@@ -95,36 +95,30 @@ export default function RegionalPricing() {
 
   const calculatePrice = (basePrice: number, region: string): string => {
     if (!isHydrated) return basePrice.toString();
-
     const rate = conversionRates[region] || 1;
     const converted = basePrice * rate;
     const symbol = regionalData[region]?.symbol || '$';
-
     return `${symbol}${converted.toFixed(2)}`;
   };
 
   const calculateWithTax = (basePrice: number, region: string): string => {
     if (!isHydrated) return basePrice.toString();
-
     const rate = conversionRates[region] || 1;
     const converted = basePrice * rate;
     const taxRate = regionalData[region]?.taxRate || 0;
     const withTax = converted * (1 + taxRate / 100);
     const symbol = regionalData[region]?.symbol || '$';
-
     return `${symbol}${withTax.toFixed(2)}`;
   };
 
   if (!isHydrated) {
     return (
-      <div className="bg-card rounded-xl border border-border p-8">
+      <div className="backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl border border-white/10 p-8">
         <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-muted rounded w-1/3"></div>
-          <div className="h-12 bg-muted rounded"></div>
+          <div className="h-7 bg-[#1B365D]/40 rounded w-1/3"></div>
+          <div className="h-12 bg-[#1B365D]/30 rounded-xl"></div>
           <div className="space-y-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-4 bg-muted rounded"></div>
-            ))}
+            {[1, 2, 3].map((i) => <div key={i} className="h-4 bg-[#1B365D]/30 rounded"></div>)}
           </div>
         </div>
       </div>
@@ -134,36 +128,33 @@ export default function RegionalPricing() {
   const currentRegion = regionalData[selectedRegion];
 
   return (
-    <div className="bg-card rounded-xl border border-border p-8 shadow-md">
+    <div className="backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl border border-white/10 p-8">
       <div className="mb-6">
-        <h3 className="text-2xl font-bold text-foreground mb-2">
-          Regional Pricing & Tax Information
-        </h3>
-        <p className="text-sm text-muted-foreground">
-          Select your region to view localized pricing and compliance details
-        </p>
+        <h3 className="text-2xl font-bold text-white mb-2">Regional Pricing &amp; Tax Information</h3>
+        <p className="text-sm text-white/50">Select your region to view localized pricing and compliance details</p>
       </div>
 
+      {/* Region selector */}
       <div className="mb-8">
-        <label className="block text-sm font-medium text-foreground mb-3">Select Your Region</label>
+        <label className="block text-sm font-medium text-white/70 mb-3">Select Your Region</label>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {Object.entries(regionalData).map(([key, data]) => (
             <button
               key={key}
               onClick={() => setSelectedRegion(key)}
-              className={`px-4 py-3 rounded-lg border-2 text-left transition-all duration-300 ${
+              className={`px-4 py-3.5 rounded-xl border-2 text-left transition-all duration-300 ${
                 selectedRegion === key
-                  ? 'border-accent bg-accent/10 shadow-sm'
-                  : 'border-border hover:border-accent/50 hover:bg-muted/30'
+                  ? 'border-[#0EA5E9] bg-[#0EA5E9]/10 shadow-lg shadow-[#0EA5E9]/15'
+                  : 'border-white/10 bg-white/5 hover:border-[#0EA5E9]/30 hover:bg-[#0EA5E9]/5'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-sm font-semibold text-foreground">{data.region}</div>
-                  <div className="text-xs text-muted-foreground mt-1">{data.currency}</div>
+                  <div className="text-sm font-semibold text-white">{data.region}</div>
+                  <div className="text-xs text-white/50 mt-0.5">{data.currency}</div>
                 </div>
                 {selectedRegion === key && (
-                  <Icon name="CheckCircleIcon" size={20} variant="solid" className="text-accent" />
+                  <Icon name="CheckCircleIcon" size={18} variant="solid" className="text-[#0EA5E9]" />
                 )}
               </div>
             </button>
@@ -171,50 +162,47 @@ export default function RegionalPricing() {
         </div>
       </div>
 
-      <div className="bg-muted/30 rounded-lg p-6 mb-6">
-        <h4 className="text-lg font-semibold text-foreground mb-4">
+      {/* Pricing breakdown */}
+      <div className="bg-[#1B365D]/30 rounded-xl p-6 mb-5 border border-white/10">
+        <h4 className="text-base font-semibold text-white mb-4">
           Example Pricing for {currentRegion.region}
         </h4>
         <div className="space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-border">
-            <span className="text-sm text-muted-foreground">Professional Plan (Base)</span>
-            <span className="text-lg font-bold text-foreground">
+          <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            <span className="text-sm text-white/60">Professional Plan (Base)</span>
+            <span className="text-lg font-bold text-white">
               {calculatePrice(99, selectedRegion)}/month
             </span>
           </div>
-          <div className="flex items-center justify-between pb-3 border-b border-border">
-            <span className="text-sm text-muted-foreground">
+          <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            <span className="text-sm text-white/60">
               {currentRegion.taxName} ({currentRegion.taxRate}%)
             </span>
-            <span className="text-lg font-semibold text-foreground">
+            <span className="text-base font-semibold text-white/70">
               {calculatePrice(99 * (currentRegion.taxRate / 100), selectedRegion)}
             </span>
           </div>
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-base font-semibold text-foreground">
+          <div className="flex items-center justify-between pt-1">
+            <span className="text-base font-semibold text-white">
               Total (incl. {currentRegion.taxName})
             </span>
-            <span className="text-2xl font-bold text-accent">
+            <span className="text-2xl font-bold text-[#0EA5E9]">
               {calculateWithTax(99, selectedRegion)}/month
             </span>
           </div>
         </div>
       </div>
 
-      <div className="bg-accent/10 rounded-lg p-6 border border-accent/20">
-        <div className="flex items-start space-x-3 mb-4">
-          <Icon
-            name="InformationCircleIcon"
-            size={24}
-            variant="solid"
-            className="text-accent flex-shrink-0 mt-0.5"
-          />
+      {/* Compliance notes */}
+      <div className="bg-[#0EA5E9]/10 rounded-xl p-5 border border-[#0EA5E9]/20 mb-6">
+        <div className="flex items-start gap-3">
+          <Icon name="InformationCircleIcon" size={20} variant="solid" className="text-[#0EA5E9] flex-shrink-0 mt-0.5" />
           <div>
-            <h5 className="text-sm font-semibold text-foreground mb-2">Compliance & Tax Notes</h5>
-            <ul className="space-y-2">
+            <h5 className="text-sm font-semibold text-white mb-2">Compliance &amp; Tax Notes</h5>
+            <ul className="space-y-1.5">
               {currentRegion.complianceNotes.map((note, index) => (
-                <li key={index} className="text-xs text-muted-foreground flex items-start">
-                  <span className="mr-2">•</span>
+                <li key={index} className="text-xs text-white/60 flex items-start gap-2">
+                  <span className="text-[#0EA5E9] mt-0.5 flex-shrink-0">•</span>
                   <span>{note}</span>
                 </li>
               ))}
@@ -223,11 +211,11 @@ export default function RegionalPricing() {
         </div>
       </div>
 
-      <div className="mt-6 text-center">
-        <p className="text-xs text-muted-foreground mb-4">
+      <div className="text-center">
+        <p className="text-xs text-white/40 mb-4">
           Need help with international billing or have questions about compliance?
         </p>
-        <button className="px-6 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-all duration-300 shadow-sm hover:shadow-md">
+        <button className="px-6 py-3 bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] text-white rounded-xl font-semibold shadow-lg shadow-[#0EA5E9]/25 hover:shadow-[#0EA5E9]/40 transition-all duration-300">
           Contact Sales Team
         </button>
       </div>

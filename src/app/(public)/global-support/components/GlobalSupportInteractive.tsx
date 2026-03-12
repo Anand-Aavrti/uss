@@ -34,13 +34,12 @@ export default function GlobalSupportInteractive() {
 
   if (!isHydrated) {
     return (
-      <div className="min-h-screen bg-background ">
-        <div className="h-[72px] bg-card shadow-md"></div>
+      <div className="min-h-screen bg-[#0B1220]">
         <div className="animate-pulse">
-          <div className="h-96 bg-gradient-to-br from-primary via-secondary to-primary"></div>
+          <div className="h-96 bg-[#1B365D]/20"></div>
           <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
-            <div className="h-64 bg-surface rounded-lg"></div>
-            <div className="h-96 bg-surface rounded-lg"></div>
+            <div className="h-64 bg-[#1B365D]/20 rounded-2xl"></div>
+            <div className="h-96 bg-[#1B365D]/20 rounded-2xl"></div>
           </div>
         </div>
       </div>
@@ -48,7 +47,7 @@ export default function GlobalSupportInteractive() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#0B1220]">
       <main>
         <SupportHero onLanguageChange={handleLanguageChange} currentLanguage={currentLanguage} />
         <QuickAccessCards

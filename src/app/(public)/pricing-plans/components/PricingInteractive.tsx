@@ -134,43 +134,43 @@ export default function PricingInteractive() {
   };
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-20">
       {/* Billing Toggle */}
-      <div className="flex flex-col items-center space-y-4">
-        <div className="flex items-center space-x-4 bg-muted/50 rounded-lg p-1.5">
+      <div className="flex flex-col items-center gap-4">
+        <div className="flex items-center gap-2 bg-[#1B365D]/30 rounded-full p-1.5 border border-white/10">
           <button
             onClick={() => setBillingCycle('monthly')}
-            className={`px-6 py-2.5 rounded-md text-sm font-medium transition-all duration-300 ${
+            className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
               billingCycle === 'monthly'
-                ? 'bg-card text-foreground shadow-sm'
-                : 'text-muted-foreground hover:text-foreground'
+                ? 'bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] text-white shadow-lg shadow-[#0EA5E9]/20'
+                : 'text-white/60 hover:text-white'
             }`}
           >
             Monthly
           </button>
           <button
             onClick={() => setBillingCycle('annual')}
-            className={`px-6 py-2.5 rounded-md text-sm font-medium transition-all duration-300 ${
+            className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
               billingCycle === 'annual'
-                ? 'bg-card text-foreground shadow-sm'
-                : 'text-muted-foreground hover:text-foreground'
+                ? 'bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] text-white shadow-lg shadow-[#0EA5E9]/20'
+                : 'text-white/60 hover:text-white'
             }`}
           >
             Annual
           </button>
         </div>
         {billingCycle === 'annual' && (
-          <div className="flex items-center space-x-2 text-sm">
-            <span className="px-3 py-1 bg-success/10 text-success rounded-full font-medium">
+          <div className="flex items-center gap-2 text-sm">
+            <span className="px-3 py-1 bg-green-500/10 text-green-400 border border-green-500/20 rounded-full font-medium">
               Save {calculateSavings()}%
             </span>
-            <span className="text-muted-foreground">with annual billing</span>
+            <span className="text-white/50">with annual billing</span>
           </div>
         )}
       </div>
 
       {/* Pricing Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
         {pricingPlans.map((plan) => (
           <PricingCard
             key={plan.id}
@@ -191,24 +191,23 @@ export default function PricingInteractive() {
       <div className="text-center">
         <button
           onClick={() => setShowCalculator(!showCalculator)}
-          className="px-6 py-3 bg-muted text-foreground rounded-lg font-medium text-sm hover:bg-muted/80 transition-all duration-300 shadow-sm hover:shadow-md inline-flex items-center space-x-2"
+          className="px-6 py-3 rounded-full text-sm font-medium border border-white/20 text-white/70 hover:text-white hover:border-[#0EA5E9]/40 hover:bg-white/5 transition-all duration-300"
         >
-          <span>{showCalculator ? 'Hide' : 'Show'} Usage Calculator</span>
+          {showCalculator ? 'Hide' : 'Show'} Usage Calculator
         </button>
       </div>
 
-      {/* Pricing Calculator */}
       {showCalculator && (
-        <div className="animate-slide-in-from-top">
+        <div>
           <PricingCalculator />
         </div>
       )}
 
       {/* Comparison Table */}
       <div>
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-3">Detailed Feature Comparison</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold text-white mb-3">Detailed Feature Comparison</h2>
+          <p className="text-white/60 max-w-2xl mx-auto">
             Compare all features across our plans to find the perfect fit for your team
           </p>
         </div>
@@ -217,9 +216,9 @@ export default function PricingInteractive() {
 
       {/* Regional Pricing */}
       <div>
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-3">Global Pricing & Compliance</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold text-white mb-3">Global Pricing &amp; Compliance</h2>
+          <p className="text-white/60 max-w-2xl mx-auto">
             Transparent pricing with regional tax information and compliance details
           </p>
         </div>
@@ -228,9 +227,9 @@ export default function PricingInteractive() {
 
       {/* FAQ Section */}
       <div>
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-3">Frequently Asked Questions</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold text-white mb-3">Frequently Asked Questions</h2>
+          <p className="text-white/60 max-w-2xl mx-auto">
             Find answers to common questions about our pricing and plans
           </p>
         </div>

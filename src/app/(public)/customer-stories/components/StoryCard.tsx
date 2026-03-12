@@ -54,118 +54,109 @@ const StoryCard = ({ story }: StoryCardProps) => {
 
   if (!isHydrated) {
     return (
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
-        <div className="h-64 bg-muted animate-pulse"></div>
+      <div className="rounded-2xl border border-white/10 overflow-hidden bg-[#1B365D]/20">
+        <div className="h-52 bg-[#1B365D]/30 animate-pulse"></div>
         <div className="p-6 space-y-4">
-          <div className="h-6 bg-muted rounded animate-pulse"></div>
-          <div className="h-4 bg-muted rounded animate-pulse"></div>
-          <div className="h-4 bg-muted rounded animate-pulse w-3/4"></div>
+          <div className="h-6 bg-[#1B365D]/30 rounded animate-pulse"></div>
+          <div className="h-4 bg-[#1B365D]/30 rounded animate-pulse"></div>
+          <div className="h-4 bg-[#1B365D]/30 rounded animate-pulse w-3/4"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-card rounded-lg border border-border overflow-hidden hover:shadow-lg transition-all duration-300 group">
+    <div className="group relative rounded-2xl border border-white/10 overflow-hidden backdrop-blur-xl bg-[#1B365D]/20 hover:border-[#0EA5E9]/30 hover:shadow-xl hover:shadow-[#0EA5E9]/10 transition-all duration-300">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0EA5E9]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
       {/* Image Section */}
-      <div className="relative h-64 overflow-hidden">
+      <div className="relative h-52 overflow-hidden">
         <AppImage
           src={story.image}
           alt={story.imageAlt}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/80 via-[#0B1220]/20 to-transparent" />
         {story.featured && (
-          <div className="absolute top-4 left-4 px-3 py-1 bg-accent text-accent-foreground text-xs font-semibold rounded-full">
+          <div className="absolute top-3 left-3 px-3 py-1 bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] text-white text-xs font-semibold rounded-full">
             Featured
           </div>
         )}
         {story.videoUrl && (
           <button
             onClick={handleVideoClick}
-            className="absolute inset-0 flex items-center justify-center bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute inset-0 flex items-center justify-center bg-[#0B1220]/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             aria-label="Play video testimonial"
           >
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-              <Icon name="PlayIcon" size={32} className="text-primary ml-1" />
+            <div className="w-14 h-14 bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] rounded-full flex items-center justify-center shadow-xl shadow-[#0EA5E9]/40">
+              <Icon name="PlayIcon" size={26} className="text-white ml-1" />
             </div>
           </button>
         )}
       </div>
 
       {/* Content Section */}
-      <div className="p-6">
-        {/* Company Logo & Tags */}
+      <div className="relative p-6">
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center overflow-hidden">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 bg-[#1B365D]/50 rounded-xl flex items-center justify-center overflow-hidden border border-white/10">
               <AppImage
                 src={story.logo}
                 alt={story.logoAlt}
-                className="w-full h-full object-contain p-2"
+                className="w-full h-full object-contain p-1.5"
               />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-foreground">
-                {story.company}
-              </h3>
-              <p className="text-xs text-muted-foreground">{story.industry}</p>
+              <h3 className="text-base font-semibold text-white">{story.company}</h3>
+              <p className="text-xs text-white/50">{story.industry}</p>
             </div>
           </div>
         </div>
 
-        {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
-          <span className="px-2 py-1 text-xs font-medium bg-muted text-foreground rounded">
+          <span className="px-2 py-1 text-xs font-medium bg-[#0EA5E9]/10 text-[#0EA5E9] border border-[#0EA5E9]/20 rounded-full">
             {story.region}
           </span>
-          <span className="px-2 py-1 text-xs font-medium bg-muted text-foreground rounded">
+          <span className="px-2 py-1 text-xs font-medium bg-white/5 text-white/60 border border-white/10 rounded-full">
             {story.useCase}
           </span>
         </div>
 
-        {/* Title & Excerpt */}
-        <h4 className="text-base font-semibold text-foreground mb-2 line-clamp-2">
+        <h4 className="text-sm font-semibold text-white mb-2 line-clamp-2 leading-snug">
           {story.title}
         </h4>
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+        <p className="text-xs text-white/55 mb-4 line-clamp-3 leading-relaxed">
           {story.excerpt}
         </p>
 
         {/* Metrics */}
-        <div className="grid grid-cols-3 gap-4 mb-4 pb-4 border-b border-border">
+        <div className="grid grid-cols-3 gap-3 mb-4 pb-4 border-b border-white/10">
           {story.metrics.map((metric, index) => (
             <div key={index} className="text-center">
               <div className="flex justify-center mb-1">
-                <Icon
-                  name={metric.icon as any}
-                  size={20}
-                  className="text-accent"
-                />
+                <Icon name={metric.icon as any} size={16} className="text-[#0EA5E9]" />
               </div>
-              <p className="text-lg font-bold text-foreground">
-                {metric.value}
-              </p>
-              <p className="text-xs text-muted-foreground">{metric.label}</p>
+              <p className="text-sm font-bold text-[#0EA5E9]">{metric.value}</p>
+              <p className="text-xs text-white/50">{metric.label}</p>
             </div>
           ))}
         </div>
 
-        {/* Actions */}
         <div className="flex items-center justify-between">
           <Link
             href={`/customer-stories/${story.id}`}
-            className="text-sm font-medium text-accent hover:text-accent/80 transition-colors duration-300 flex items-center space-x-1"
+            className="text-sm font-medium text-[#0EA5E9] hover:text-white transition-colors duration-300 flex items-center gap-1.5"
           >
             <span>Read Full Story</span>
-            <Icon name="ArrowRightIcon" size={16} />
+            <Icon name="ArrowRightIcon" size={14} />
           </Link>
           {story.pdfUrl && (
             <button
               onClick={handleDownloadPDF}
-              className="p-2 text-muted-foreground hover:text-accent transition-colors duration-300"
+              className="p-1.5 text-white/40 hover:text-[#0EA5E9] transition-colors duration-300"
               aria-label="Download case study PDF"
             >
-              <Icon name="ArrowDownTrayIcon" size={20} />
+              <Icon name="ArrowDownTrayIcon" size={18} />
             </button>
           )}
         </div>
@@ -174,19 +165,19 @@ const StoryCard = ({ story }: StoryCardProps) => {
       {/* Video Modal */}
       {showVideo && story.videoUrl && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-primary/90 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1220]/95 backdrop-blur-xl p-4"
           onClick={() => setShowVideo(false)}
         >
           <div
-            className="relative w-full max-w-4xl bg-card rounded-lg overflow-hidden"
+            className="relative w-full max-w-4xl rounded-2xl overflow-hidden border border-white/10 bg-[#1B365D]/20"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setShowVideo(false)}
-              className="absolute top-4 right-4 z-10 p-2 bg-card rounded-full hover:bg-muted transition-colors duration-300"
+              className="absolute top-4 right-4 z-10 p-2 bg-[#0B1220]/80 rounded-full hover:bg-[#1B365D]/50 transition-colors duration-300"
               aria-label="Close video"
             >
-              <Icon name="XMarkIcon" size={24} className="text-foreground" />
+              <Icon name="XMarkIcon" size={22} className="text-white" />
             </button>
             <div className="aspect-video">
               <iframe

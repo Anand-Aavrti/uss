@@ -200,7 +200,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AppImage from '@/components/ui/AppImage';
 import { useRouter } from 'next/navigation';
 import Icon from '@/components/ui/AppIcon';
@@ -239,9 +239,22 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onCompare, isComparing }: ProductCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<'features' | 'specs' | 'integrations'>('features');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const ussUser = localStorage.getItem('uss_user');
+    if (!ussUser) return;
+
+    try {
+      const parsed = JSON.parse(ussUser);
+      setIsAuthenticated(Boolean(parsed?.email));
+    } catch {
+      localStorage.removeItem('uss_user');
+    }
+  }, []);
 
   const complexityColors = {
     Low: 'bg-[#0EA5E9]/10 text-[#0EA5E9] border-[#0EA5E9]/30',
@@ -300,7 +313,13 @@ export default function ProductCard({ product, onCompare, isComparing }: Product
 
         {/* Expand/Collapse Button */}
         <button
-          onClick={() => router.push(product.appUrl)}
+          onClick={() => {
+            if (isAuthenticated) {
+              router.push(`/products-overview/enroll/${product.id}`);
+              return;
+            }
+            router.push(product.appUrl);
+          }}
           className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-white/5 text-white rounded-xl hover:bg-white/10 border border-white/10 transition-all duration-300"
         >
           <Icon name="ArrowTopRightOnSquareIcon" size={16} />

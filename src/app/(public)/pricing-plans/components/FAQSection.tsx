@@ -59,29 +59,39 @@ export default function FAQSection() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {faqs.map((faq, index) => (
         <div
           key={index}
-          className="bg-card rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-md"
+          className={`backdrop-blur-xl rounded-2xl border overflow-hidden transition-all duration-300 ${
+            expandedIndex === index
+              ? 'bg-[#1B365D]/30 border-[#0EA5E9]/30 shadow-lg shadow-[#0EA5E9]/10'
+              : 'bg-[#1B365D]/20 border-white/10 hover:border-[#0EA5E9]/25'
+          }`}
         >
           <button
             onClick={() => toggleFAQ(index)}
-            className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-muted/30 transition-colors duration-200"
+            className="w-full px-6 py-5 flex items-center justify-between text-left"
             aria-expanded={expandedIndex === index}
           >
-            <span className="text-base font-semibold text-foreground pr-4">{faq.question}</span>
-            <Icon
-              name="ChevronDownIcon"
-              size={20}
-              className={`flex-shrink-0 text-muted-foreground transition-transform duration-300 ${
-                expandedIndex === index ? 'rotate-180' : ''
+            <span className="text-base font-semibold text-white pr-4">{faq.question}</span>
+            <div
+              className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                expandedIndex === index
+                  ? 'bg-[#0EA5E9]/20 text-[#0EA5E9]'
+                  : 'bg-white/5 text-white/40'
               }`}
-            />
+            >
+              <Icon
+                name="ChevronDownIcon"
+                size={16}
+                className={`transition-transform duration-300 ${expandedIndex === index ? 'rotate-180' : ''}`}
+              />
+            </div>
           </button>
           {expandedIndex === index && (
-            <div className="px-6 pb-4 pt-2 border-t border-border bg-muted/10 animate-slide-in-from-top">
-              <p className="text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
+            <div className="px-6 pb-5 pt-1 border-t border-white/10">
+              <p className="text-sm text-white/65 leading-relaxed">{faq.answer}</p>
             </div>
           )}
         </div>

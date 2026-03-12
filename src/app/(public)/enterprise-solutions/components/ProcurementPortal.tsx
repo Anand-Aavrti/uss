@@ -60,173 +60,156 @@ const resources: Resource[] = [
 
 export default function ProcurementPortal() {
   return (
-    <section className="bg-background py-20">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="relative bg-[#08111f] py-20 overflow-hidden">
+      {/* Decorative orbs */}
+      <div className="absolute -top-16 -right-16 w-80 h-80 bg-[#0EA5E9]/8 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#1B365D]/20 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 z-10">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 bg-primary/10 px-4 py-2 rounded-full mb-6">
-            <Icon name="BriefcaseIcon" size={20} className="text-primary" />
-            <span className="text-sm font-medium text-primary">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0EA5E9]/10 border border-[#0EA5E9]/25 mb-6">
+            <Icon name="BriefcaseIcon" size={16} className="text-[#0EA5E9]" />
+            <span className="text-sm font-medium text-[#0EA5E9]">
               Procurement Resources
             </span>
           </div>
-          <h2 className="text-3xl lg:text-4xl font-heading font-bold text-foreground mb-4">
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
             Streamlined Procurement Process
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg text-white/60 max-w-3xl mx-auto">
             Access all the documentation and resources your procurement team
             needs to evaluate and approve USS.
           </p>
         </div>
 
+        {/* Resource cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {resources.map((resource, index) => (
             <div
               key={index}
-              className="bg-card rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-border group cursor-pointer"
+              className="group relative backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl p-6 border border-white/10 hover:border-[#0EA5E9]/40 hover:shadow-xl hover:shadow-[#0EA5E9]/10 transition-all duration-300 cursor-pointer"
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
-                  <Icon
-                    name={resource.icon as any}
-                    size={24}
-                    className="text-primary"
-                  />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#0EA5E9]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <div className="relative">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#0EA5E9]/20 to-[#1B365D]/30 rounded-xl flex items-center justify-center border border-[#0EA5E9]/20 group-hover:border-[#0EA5E9]/50 transition-colors">
+                    <Icon
+                      name={resource.icon as any}
+                      size={22}
+                      className="text-[#0EA5E9]"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium text-white/50 bg-[#1B365D]/40 border border-white/10 px-2 py-1 rounded-lg">
+                      {resource.fileType}
+                    </span>
+                    <span className="text-xs text-white/40">
+                      {resource.fileSize}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-xs font-medium text-muted-foreground bg-surface px-2 py-1 rounded">
-                    {resource.fileType}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {resource.fileSize}
-                  </span>
-                </div>
+
+                <h3 className="text-base font-semibold text-white mb-2 group-hover:text-[#0EA5E9] transition-colors duration-300">
+                  {resource.title}
+                </h3>
+                <p className="text-sm text-white/60 mb-4">
+                  {resource.description}
+                </p>
+
+                <button className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0EA5E9] hover:text-white transition-colors duration-300">
+                  Download
+                  <Icon name="ArrowDownTrayIcon" size={15} />
+                </button>
               </div>
-
-              <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
-                {resource.title}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                {resource.description}
-              </p>
-
-              <button className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors duration-300">
-                Download
-                <Icon name="ArrowDownTrayIcon" size={16} className="ml-1" />
-              </button>
             </div>
           ))}
         </div>
 
-        <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl p-8 lg:p-12 text-white">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="text-2xl font-heading font-bold mb-4">
+        {/* Procurement help section */}
+        <div className="backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl border border-white/10 overflow-hidden">
+          <div className="grid lg:grid-cols-2 gap-0">
+            {/* Left: info */}
+            <div className="p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-white/10">
+              <h3 className="text-2xl font-bold text-white mb-4">
                 Need Help with Procurement?
               </h3>
-              <p className="text-white/90 mb-6">
+              <p className="text-white/60 mb-8">
                 Our enterprise team is ready to assist with vendor
                 questionnaires, security reviews, and contract negotiations. We
                 understand enterprise procurement processes and work to make
                 yours as smooth as possible.
               </p>
-              <ul className="space-y-3">
-                <li className="flex items-start space-x-3">
-                  <Icon
-                    name="CheckCircleIcon"
-                    size={20}
-                    className="flex-shrink-0 mt-0.5"
-                    variant="solid"
-                  />
-                  <span className="text-sm">
-                    Dedicated procurement specialist assigned
-                  </span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <Icon
-                    name="CheckCircleIcon"
-                    size={20}
-                    className="flex-shrink-0 mt-0.5"
-                    variant="solid"
-                  />
-                  <span className="text-sm">
-                    Fast-track security questionnaire responses
-                  </span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <Icon
-                    name="CheckCircleIcon"
-                    size={20}
-                    className="flex-shrink-0 mt-0.5"
-                    variant="solid"
-                  />
-                  <span className="text-sm">
-                    Flexible contract terms and MSA options
-                  </span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <Icon
-                    name="CheckCircleIcon"
-                    size={20}
-                    className="flex-shrink-0 mt-0.5"
-                    variant="solid"
-                  />
-                  <span className="text-sm">
-                    Legal team support for contract review
-                  </span>
-                </li>
+              <ul className="space-y-4">
+                {[
+                  "Dedicated procurement specialist assigned",
+                  "Fast-track security questionnaire responses",
+                  "Flexible contract terms and MSA options",
+                  "Legal team support for contract review",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <Icon
+                      name="CheckCircleIcon"
+                      size={20}
+                      className="flex-shrink-0 text-green-400 mt-0.5"
+                      variant="solid"
+                    />
+                    <span className="text-white/80 text-sm">{item}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8">
-              <h4 className="text-xl font-semibold mb-6">
+            {/* Right: contact form */}
+            <div className="p-8 lg:p-12">
+              <h4 className="text-xl font-semibold text-white mb-6">
                 Contact Procurement Team
               </h4>
               <form className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium text-white/70 mb-2">
                     Company Name
                   </label>
                   <input
                     type="text"
                     placeholder="Enter your company name"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 text-white placeholder-white/50"
+                    className="w-full px-4 py-3 bg-[#1B365D]/30 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/50 focus:border-transparent transition-all duration-300"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium text-white/70 mb-2">
                     Work Email
                   </label>
                   <input
                     type="email"
                     placeholder="you@company.com"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 text-white placeholder-white/50"
+                    className="w-full px-4 py-3 bg-[#1B365D]/30 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/50 focus:border-transparent transition-all duration-300"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium text-white/70 mb-2">
                     Procurement Stage
                   </label>
-                  <select className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 text-white">
-                    <option value="" className="text-foreground">
+                  <select className="w-full px-4 py-3 bg-[#1B365D]/30 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/50 focus:border-transparent transition-all duration-300">
+                    <option value="" className="bg-[#0B1220] text-white">
                       Select stage
                     </option>
-                    <option value="initial" className="text-foreground">
+                    <option value="initial" className="bg-[#0B1220] text-white">
                       Initial evaluation
                     </option>
-                    <option value="security" className="text-foreground">
+                    <option value="security" className="bg-[#0B1220] text-white">
                       Security review
                     </option>
-                    <option value="legal" className="text-foreground">
+                    <option value="legal" className="bg-[#0B1220] text-white">
                       Legal review
                     </option>
-                    <option value="negotiation" className="text-foreground">
+                    <option value="negotiation" className="bg-[#0B1220] text-white">
                       Contract negotiation
                     </option>
                   </select>
                 </div>
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 bg-cta text-cta-foreground rounded-lg font-semibold hover:bg-cta/90 transition-all duration-300 shadow-md hover:shadow-lg"
+                  className="w-full px-6 py-3.5 bg-gradient-to-r from-[#0EA5E9] to-[#1B365D] text-white rounded-xl font-semibold shadow-lg shadow-[#0EA5E9]/25 hover:shadow-[#0EA5E9]/40 hover:scale-[1.01] transition-all duration-300"
                 >
                   Request Procurement Support
                 </button>

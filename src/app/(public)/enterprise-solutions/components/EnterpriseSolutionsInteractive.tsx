@@ -36,16 +36,16 @@ export default function EnterpriseSolutionsInteractive() {
 
   if (!isHydrated) {
     return (
-      <div className="min-h-screen bg-background ">
+      <div className="min-h-screen bg-[#0B1220]">
         <div className="animate-pulse">
-          <div className="h-96 bg-muted"></div>
+          <div className="h-96 bg-[#1B365D]/20"></div>
           <div className="max-w-7xl mx-auto px-6 py-20">
             <div className="space-y-8">
-              <div className="h-8 bg-muted rounded w-1/3"></div>
-              <div className="h-4 bg-muted rounded w-2/3"></div>
+              <div className="h-8 bg-[#1B365D]/20 rounded w-1/3"></div>
+              <div className="h-4 bg-[#1B365D]/20 rounded w-2/3"></div>
               <div className="grid md:grid-cols-3 gap-6">
-                {[1, 2, 3]?.map((i) => (
-                  <div key={i} className="h-48 bg-muted rounded"></div>
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-48 bg-[#1B365D]/20 rounded"></div>
                 ))}
               </div>
             </div>

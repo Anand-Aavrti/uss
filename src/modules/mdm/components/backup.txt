@@ -1,0 +1,664 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Box,
+  Divider,
+  IconButton,
+} from "@mui/material";
+import YTXTypography from "./YTXTypography"; // Assuming this is in the same folder or update path
+
+// Import Icons
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
+import SmartphoneIcon from "@mui/icons-material/Smartphone";
+import GavelIcon from "@mui/icons-material/Gavel";
+import AppsIcon from "@mui/icons-material/Apps";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import GroupWorkIcon from "@mui/icons-material/GroupWork";
+import WifiTetheringIcon from "@mui/icons-material/WifiTethering";
+import FolderSharedIcon from "@mui/icons-material/FolderShared";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import BuildCircleIcon from "@mui/icons-material/BuildCircle";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import TerminalIcon from "@mui/icons-material/Terminal";
+import HomeIcon from "@mui/icons-material/Home";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CloseIcon from "@mui/icons-material/Close";
+
+import useMediaQuery from "@mui/material/useMediaQuery";
+// Your Data
+const docCards = [
+  {
+    id: 1,
+    title: "Installation & Setup",
+    href: "/apps/mdm/docs/Installation&Setup",
+    icon: <SettingsSuggestIcon />,
+  },
+  {
+    id: 2,
+    title: "Device Enrollment",
+    href: "/apps/mdm/docs/DeviceEnrollment",
+    icon: <QrCodeScannerIcon />,
+  },
+  {
+    id: 3,
+    title: "Device Management",
+    href: "/apps/mdm/docs/DeviceManagement",
+    icon: <SmartphoneIcon />,
+  },
+  {
+    id: 4,
+    title: "Policies & Restrictions",
+    href: "/apps/mdm/docs/Policies&Restrictions",
+    icon: <GavelIcon />,
+  },
+  {
+    id: 5,
+    title: "Apps Management",
+    href: "/apps/mdm/docs/AppsManagement",
+    icon: <AppsIcon />,
+  },
+  {
+    id: 6,
+    title: "Blueprints",
+    href: "/apps/mdm/docs/Blueprints",
+    icon: <ContentCopyIcon />,
+  },
+  {
+    id: 7,
+    title: "Device Groups",
+    href: "/apps/mdm/docs/DeviceGroups",
+    icon: <GroupWorkIcon />,
+  },
+  {
+    id: 8,
+    title: "Remote Commands",
+    href: "/apps/mdm/docs/RemoteGroups",
+    icon: <WifiTetheringIcon />,
+  },
+  {
+    id: 9,
+    title: "Content Management",
+    href: "/apps/mdm/docs/ContentManagement",
+    icon: <FolderSharedIcon />,
+  },
+  {
+    id: 10,
+    title: "User & Role Management",
+    href: "/apps/mdm/docs/User&RoleManagement",
+    icon: <SupervisedUserCircleIcon />,
+  },
+  {
+    id: 11,
+    title: "Troubleshooting",
+    href: "/apps/mdm/docs/Troubleshooting",
+    icon: <BuildCircleIcon />,
+  },
+  { id: 12, title: "FAQs", href: "/apps/mdm/docs/FAQs", icon: <HelpOutlineIcon /> },
+  { id: 13, title: "CLI Reference", href: "/apps/mdm/docs/cli", icon: <TerminalIcon /> },
+];
+
+const sidebarWidth = 320;
+const miniWidth = 72;
+export default function DocsSidebar({ mobileOpen, onDrawerToggle }) {
+  const pathname = usePathname();
+  const isMobile = useMediaQuery("(max-width: 900px)");
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  const toggleSidebar = () => setIsExpanded((s) => !s);
+
+  const isOpen = isMobile ? mobileOpen : true;
+  const drawerVariant = isMobile ? "temporary" : "permanent";
+
+  // keep numeric widths for desktop, but use responsive PaperProps for mobile width
+  const drawerWidth = isMobile ? sidebarWidth : isExpanded ? sidebarWidth : miniWidth;
+  const showExpandedContent = isMobile ? isOpen : isExpanded;
+  const toggleAction = isMobile ? onDrawerToggle : toggleSidebar;
+
+  return (
+    <Drawer
+      variant={drawerVariant}
+      open={isOpen}
+      onClose={isMobile ? onDrawerToggle : undefined}
+      ModalProps={{ keepMounted: true }}
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        transition: "width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        // ensure temporary drawer only shows on small screens
+        ...(isMobile && { display: { xs: "block", md: "none" } }),
+        "& .MuiDrawer-paper": {
+          // Use responsive sizing for the paper: on xs use 92vw but cap it visually with maxWidth
+          width: isMobile ? { xs: "92vw", sm: sidebarWidth } : drawerWidth,
+          maxWidth: isMobile ? sidebarWidth : drawerWidth,
+          ...(isMobile && {
+            position: "fixed",
+            height: "100vh",
+            border: "none",
+            boxShadow: "0 0 20px rgba(0,245,255,0.1)",
+          }),
+          transition: "all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          bgcolor: "#020810",
+          borderRight: !isMobile && "1px solid rgba(255, 255, 255, 0.08)",
+          color: "white",
+          overflow: "hidden",
+          // invisible scrollbar kept
+          "&::-webkit-scrollbar": { width: "0px", height: "0px" },
+          "&::-webkit-scrollbar-track": { background: "transparent" },
+          "&::-webkit-scrollbar-thumb": { background: "transparent" },
+          "&::-webkit-scrollbar-thumb:hover": { background: "transparent" },
+        },
+      }}
+    >
+      {/* Brand / Header Area */}
+      <Box
+        sx={{
+          p: { xs: 1, sm: 2, md: 4 },
+          pb: 2,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: showExpandedContent ? "space-between" : "center",
+          transition: "justify-content 0.3s ease",
+          // ensure header content does not overflow: add horizontal padding clamp
+          px: { xs: 1.5, sm: 2, md: 4 },
+        }}
+      >
+        {showExpandedContent ? (
+          <>
+            <YTXTypography
+              variant="h4"
+              fontWeight={800}
+              sx={{
+                letterSpacing: "-0.5px",
+                color: "#fff",
+                opacity: 1,
+                transform: "translateX(0)",
+                transition: "opacity 0.3s ease, transform 0.3s ease",
+                // prevent long text pushing icon off-screen
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                mr: 1,
+                maxWidth: { xs: "65%", sm: "70%", md: "80%" },
+              }}
+            >
+              Yantrix <span style={{ color: "#00f5ff" }}>Docs</span>
+            </YTXTypography>
+            <YTXTypography
+              variant="caption"
+              color="grey.600"
+              sx={{ opacity: 1, transition: "opacity 0.3s ease" }}
+            >
+              {/* v2.4.0 */}
+            </YTXTypography>
+          </>
+        ) : (
+          <YTXTypography
+            variant="h5"
+            fontWeight={800}
+            sx={{ color: "#00f5ff", opacity: 1, transition: "opacity 0.3s ease" }}
+          >
+            {/* YTX */}
+          </YTXTypography>
+        )}
+
+        {/* Show desktop chevron, but show a mobile Close icon when drawer is temporary */}
+        <IconButton
+          onClick={toggleAction}
+          sx={{
+            color: "grey.400",
+            "&:hover": { bgcolor: "rgba(255, 255, 255, 0.08)" },
+            transition: "transform 0.3s ease",
+            // always visible (desktop + mobile). On desktop rotate chevron, on mobile no rotate.
+            display: "flex",
+            transform: !isMobile ? (isExpanded ? "rotate(180deg)" : "rotate(0deg)") : "none",
+            // override for mobile below with different icon, so we control via children
+            // keep it accessible
+            ml: 1,
+          }}
+        >
+          {/* If mobile, render a close icon (so users can close drawer). On desktop render chevrons */}
+          {isMobile ? (
+            <CloseIcon />
+          ) : showExpandedContent ? (
+            <ChevronLeftIcon />
+          ) : (
+            <ChevronRightIcon />
+          )}
+        </IconButton>
+      </Box>
+
+      <List
+        sx={{
+          px: { xs: 0.5, sm: 1, md: 2 },
+          pb: 2,
+          transition: "padding 0.3s ease",
+        }}
+      >
+        {" "}
+        {/* Responsive padding */}
+        {/* Main Dashboard Link */}
+        <Link href="/apps/mdm/docs" passHref style={{ textDecoration: "none" }}>
+          <ListItemButton
+            selected={pathname === "/apps/mdm/docs"}
+            sx={{
+              borderRadius: 2,
+              justifyContent: showExpandedContent ? "initial" : "center", // Left align when expanded, center when collapsed
+              marginLeft: 0,
+              mb: 2,
+              bgcolor:
+                pathname === "/apps/mdm/docs"
+                  ? "rgba(0, 245, 255, 0.08)"
+                  : "transparent",
+              transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)", // Smoother ease for no glitches
+              "&.Mui-selected": {
+                bgcolor: "rgba(0, 245, 255, 0.12)",
+                borderLeft: "4px solid #00f5ff",
+                boxShadow: "inset 0 0 0 1px rgba(0, 245, 255, 0.2)", // Left-side inner glow
+              },
+              "&.Mui-selected:hover": {
+                bgcolor: "rgba(0, 245, 255, 0.16)",
+                boxShadow: "inset 0 0 0 1px rgba(0, 245, 255, 0.3)", // Enhanced glow on hover
+              },
+              "&:hover": {
+                bgcolor: "rgba(255, 255, 255, 0.08)",
+              },
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: { xs: 32, md: 40 }, // Responsive icon container width
+                marginLeft: 0, // No left margin for proper alignment
+                color: pathname === "/apps/mdm/docs" ? "#00f5ff" : "grey.500",
+                transition: "color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+              }}
+            >
+              <HomeIcon fontSize="medium" />
+            </ListItemIcon>
+            {showExpandedContent && (
+              <ListItemText
+                primary={
+                  <YTXTypography
+                    fontSize="0.95rem"
+                    fontWeight={600}
+                    color={pathname === "/apps/mdm/docs" ? "#00f5ff" : "grey.400"}
+                  >
+                    Overview
+                  </YTXTypography>
+                }
+              />
+            )}
+          </ListItemButton>
+        </Link>
+        <Divider sx={{ my: 1, borderColor: "rgba(255,255,255,0.08)" }} />
+        {/* Guides Section Label (only in expanded) */}
+        {showExpandedContent && (
+          <Box
+            sx={{
+              px: { xs: 0.5, sm: 1, md: 2 },
+              py: 1.1,
+              opacity: 1,
+              transform: "translateX(0)",
+            }}
+          >
+            {" "}
+            {/* Responsive padding */}
+            <YTXTypography
+              variant="caption"
+              fontWeight={700}
+              color="grey.600"
+              sx={{
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                transition: "opacity 0.3s ease, transform 0.3s ease",
+              }}
+            >
+              Guides
+            </YTXTypography>
+          </Box>
+        )}
+        {/* Dynamic List from Data */}
+        {docCards.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              href={item.href}
+              passHref
+              key={item.id}
+              style={{ textDecoration: "none" }}
+            >
+              <ListItemButton
+                selected={isActive}
+                sx={{
+                  borderRadius: 2,
+                  mb: 0.2,
+                  justifyContent: showExpandedContent ? "initial" : "center", // Left align when expanded, center when collapsed
+                  transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)", // Smoother ease for no glitches
+                  position: "relative",
+                  bgcolor: isActive ? "rgba(0, 245, 255, 0.12)" : "transparent",
+                  borderLeft: isActive
+                    ? "4px solid #00f5ff"
+                    : "4px solid transparent",
+                  boxShadow: isActive
+                    ? "inset 0 0 0 1px rgba(0, 245, 255, 0.2)"
+                    : "none", // Left-side inner glow
+                  "&.Mui-selected": {
+                    bgcolor: "rgba(0, 245, 255, 0.12)",
+                    borderLeft: "4px solid #00f5ff",
+                    boxShadow: "inset 0 0 0 1px rgba(0, 245, 255, 0.2)",
+                  },
+                  "&.Mui-selected:hover": {
+                    bgcolor: "rgba(0, 245, 255, 0.16)",
+                    boxShadow: "inset 0 0 0 1px rgba(0, 245, 255, 0.3)", // Enhanced left glow on hover
+                  },
+                  "&:hover": {
+                    bgcolor: "rgba(255, 255, 255, 0.08)",
+                    "& .item-icon": { color: "#fff" },
+                  },
+                }}
+              >
+                <ListItemIcon
+                  className="item-icon"
+                  sx={{
+                    minWidth: { xs: 32, md: 40 }, // Responsive icon container width
+                    color: isActive ? "#00f5ff" : "grey.600",
+                    transition:
+                      "color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                    marginLeft: 0, // No left margin for proper alignment
+                  }}
+                >
+                  {React.cloneElement(item.icon, {
+                    fontSize: isExpanded ? "small" : "medium",
+                  })}
+                </ListItemIcon>
+                {showExpandedContent && (
+                  <ListItemText
+                    primary={
+                      <YTXTypography
+                        fontSize="0.95rem"
+                        fontWeight={isActive ? 600 : 500}
+                        color={isActive ? "white" : "grey.400"}
+                        sx={{
+                          transition:
+                            "color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                          opacity: 1,
+                          transform: "translateX(0)",
+                        }}
+                      >
+                        {item.title}
+                      </YTXTypography>
+                    }
+                  />
+                )}
+              </ListItemButton>
+            </Link>
+          );
+        })}
+      </List>
+    </Drawer>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+----------docs layout----------
+// app/(docs)/layout.js
+"use client";
+import { Box, Container, CssBaseline,IconButton,TextField, InputAdornment,Menu,MenuItem,CircularProgress } from "@mui/material";
+import DocsSidebar from "./../components/DocsSidebar";
+import React, { useRef, useEffect } from "react";
+import { useState } from "react";
+import { DrawerContext } from "@/context/DrawerContext";
+import { useDrawer } from "@/context/DrawerContext";
+import YTXTypography from "../components/YTXTypography";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+
+// export const metadata = {
+//   title: "Help Center | YourMDM",
+// };
+
+export default function DocsLayout({ children }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const searchRef = useRef(null);
+  const [searchIndex, setSearchIndex] = useState([]);
+  const { onToggle } = useDrawer();
+  const handleDrawerToggle = () => {
+    setMobileOpen((prev) => !prev);
+  };
+
+  const handleClose = () => setAnchorEl(null);
+
+  // Load search index on mount
+  useEffect(() => {
+    fetch("/search-index.json")
+      .then((res) => res.json())   // ✅ return json here
+      .then((data) => {
+        console.log("Search index content:", data);  // ✅ print content
+        setSearchIndex(data);
+  
+        const fuse = new Fuse(data, {
+          keys: ["title", "body"],
+          threshold: 0.3,
+          includeScore: true,
+          limit: 5,
+        });
+  
+        // Optional: store fuse in state if needed later
+        // setFuse(fuse);
+      })
+      .catch((error) => {
+        console.error("Error loading search index:", error);
+      });
+  }, []);
+  
+
+  // Handle search on change
+  useEffect(() => {
+    if (searchQuery.length < 2) {
+      setSearchResults([]);
+      setAnchorEl(null);
+      return;
+    }
+
+    setIsLoading(true);
+    // Simulate delay for loader (remove in prod)
+    const timer = setTimeout(() => {
+      const fuse = new Fuse(searchIndex, {
+        keys: ["title", "body"],
+        threshold: 0.3,
+        includeScore: true,
+        limit: 5,
+      });
+      const results = fuse.search(searchQuery).map((result) => ({
+        ...result.item,
+        score: result.score,
+        snippet: result.item.body.substring(0, 200) + "...", // 2-3 line snippet
+      }));
+      setSearchResults(results);
+      setAnchorEl(searchRef.current); // Open dropdown
+      setIsLoading(false);
+    }, 300); // Debounce
+
+    return () => clearTimeout(timer);
+  }, [searchQuery, searchIndex]);
+  return (
+    <>
+      <CssBaseline />
+      <DrawerContext.Provider value={{ onToggle: handleDrawerToggle }}>
+        <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#0a0e17" }}>
+          <DocsSidebar
+            mobileOpen={mobileOpen}
+            onDrawerToggle={handleDrawerToggle}
+          />
+
+          {/* Fixed Sticky Search - Always Visible at Viewport Top */}
+          <Box
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 100,
+              mb:20,
+              backdropFilter: "blur(20px)",
+              borderBottom: "1px solid rgba(255,255,255,0.08)",
+              py: { xs: 1.5, md: 2 }, // responsive vertical padding
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Container
+              maxWidth="xl"
+              sx={{
+                display: "flex",
+                alignItems: "center", // Align hamburger with search
+                justifyContent: "center",
+                gap: 2, // Space between hamburger and search
+                px: { xs: 2, md: 0 },
+              }}
+            >
+              {/* Hamburger for mobile */}
+              <IconButton
+                onClick={handleDrawerToggle}
+                sx={{
+                  color: "white",
+                  display: { xs: "flex", md: "none" }, // Show only on mobile
+                  zIndex: 110,
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              {/* Live Search with Dropdown */}
+              <TextField
+                inputRef={searchRef}
+                fullWidth
+                placeholder="Search documentation..."
+                variant="outlined"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setAnchorEl(searchRef.current); // keep dropdown aligned
+                }}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon sx={{ color: "grey.500" }} />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+                sx={{
+                  width: "100%",
+                  maxWidth: { xs: "100%", sm: 500, md: 600, lg: 700 }, // responsive width
+                  "& .MuiOutlinedInput-root": {
+                    height: { xs: 52, md: 42 }, // responsive height
+                    bgcolor: "rgba(255,255,255,0.05)",
+                    borderRadius: 4,
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    fontSize: { xs: "1rem", md: "1.1rem" },
+                    color: "white",
+                    "&:hover": { borderColor: "#00f5ff" },
+                    "&.Mui-focused": {
+                      borderColor: "#00f5ff",
+                      boxShadow: "0 0 0 4px rgba(0,245,255,0.25)",
+                    },
+                  },
+                }}
+              />
+
+              {/* Dropdown Menu with Loader/Results */}
+              <Menu
+                anchorEl={searchRef.current} // 🔥 Perfect align with input
+                open={Boolean(anchorEl) && searchResults.length > 0}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                transformOrigin={{ vertical: "top", horizontal: "center" }}
+                PaperProps={{
+                  sx: {
+                    width: "100%",
+                    maxWidth: { xs: "100%", sm: 500, md: 600, lg: 700 },
+                    maxHeight: 400,
+                    mt: 1,
+                    bgcolor: "rgba(2, 8, 16, 0.98)",
+                    border: "1px solid rgba(0,245,255,0.2)",
+                    borderRadius: 2,
+                  },
+                }}
+              >
+                {isLoading ? (
+                  <Box sx={{ p: 3, textAlign: "center" }}>
+                    <CircularProgress size={24} sx={{ color: "#00f5ff" }} />
+                    <YTXTypography
+                      variant="body2"
+                      color="grey.500"
+                      sx={{ mt: 1 }}
+                    >
+                      Searching...
+                    </YTXTypography>
+                  </Box>
+                ) : (
+                  searchResults.map((result) => (
+                    <MenuItem
+                      key={result.id}
+                      onClick={handleClose}
+                      component={Link}
+                      href={result.path}
+                      sx={{ whiteSpace: "normal" }}
+                    >
+                      <Box sx={{ width: "100%" }}>
+                        <YTXTypography
+                          variant="subtitle1"
+                          fontWeight={600}
+                          color="white"
+                        >
+                          {result.title}
+                        </YTXTypography>
+
+                        <YTXTypography
+                          variant="body2"
+                          color="grey.400"
+                          sx={{ lineHeight: 1.4, mt: 0.5 }}
+                        >
+                          {result.snippet}
+                        </YTXTypography>
+
+                        <YTXTypography variant="caption" color="grey.600">
+                          {result.path}
+                        </YTXTypography>
+                      </Box>
+                    </MenuItem>
+                  ))
+                )}
+              </Menu>
+            </Container>
+          </Box>
+
+          <Container maxWidth="lg" sx={{mt:5}}>{children}</Container>
+        </Box>
+      </DrawerContext.Provider>
+    </>
+  );
+}

@@ -25,10 +25,11 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "**/*.js",
     ".next/types/**/*.ts",
     "next-env.d.ts",
     "types/**/*.d.ts",
     ".next/next-build/types/**/*.ts"
-, "src/app/home/components/HeroSection.tsx"  ],
+, "src/app/home/components/HeroSection.tsx", "src/app/dashboard/apps/mdm/layout.jsx", "src/app/dashboard/apps/mdm/page.jsx", "src/modules/mdm/components/Header.jsx", "src/app/(dashboard)/apps/mdm/page.jsx", "src/app/(dashboard)/apps/layout.jsx", "src/app/(dashboard)/apps/mdm/contact/page.jsx", "src/app/(dashboard)/apps/mdm/profile/page.jsx"  ],
   "exclude": ["node_modules"]
 }

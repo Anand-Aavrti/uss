@@ -78,55 +78,49 @@ const features: Feature[] = [
 
 export default function EnterpriseFeatures() {
   return (
-    <section className="bg-background py-20">
+    <section className="bg-[#08111f] py-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 bg-accent/10 px-4 py-2 rounded-full mb-6">
-            <Icon name="SparklesIcon" size={20} className="text-accent" />
-            <span className="text-sm font-medium text-accent">
-              Enterprise Features
-            </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0EA5E9]/10 border border-[#0EA5E9]/25 mb-6">
+            <Icon name="SparklesIcon" size={16} className="text-[#0EA5E9]" />
+            <span className="text-sm font-medium text-[#0EA5E9]">Enterprise Features</span>
           </div>
-          <h2 className="text-3xl lg:text-4xl font-heading font-bold text-foreground mb-4">
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
             Everything Your Enterprise Needs
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Built for scale, security, and global operations. USS provides the
-            foundation for mission-critical infrastructure.
+          <p className="text-lg text-white/60 max-w-3xl mx-auto">
+            Built for scale, security, and global operations. USS provides the foundation for
+            mission-critical infrastructure.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-card rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-border group"
+              className="group relative backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl p-8 border border-white/10 hover:border-[#0EA5E9]/40 transition-all duration-300 hover:shadow-xl hover:shadow-[#0EA5E9]/10"
             >
-              <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
-                <Icon
-                  name={feature.icon as any}
-                  size={28}
-                  className="text-primary"
-                />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#0EA5E9]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+              <div className="relative w-14 h-14 bg-gradient-to-br from-[#0EA5E9]/20 to-[#1B365D]/30 rounded-xl flex items-center justify-center mb-6 border border-[#0EA5E9]/20 group-hover:border-[#0EA5E9]/50 transition-colors duration-300">
+                <Icon name={feature.icon as any} size={26} className="text-[#0EA5E9]" />
               </div>
 
-              <h3 className="text-xl font-semibold text-foreground mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-muted-foreground mb-6">
+              <h3 className="relative text-xl font-semibold text-white mb-3">{feature.title}</h3>
+              <p className="relative text-white/60 mb-6 text-sm leading-relaxed">
                 {feature.description}
               </p>
 
-              <ul className="space-y-3">
+              <ul className="relative space-y-2.5">
                 {feature.benefits.map((benefit, idx) => (
-                  <li key={idx} className="flex items-start space-x-3">
+                  <li key={idx} className="flex items-start gap-2.5">
                     <Icon
                       name="CheckCircleIcon"
-                      size={20}
-                      className="text-success flex-shrink-0 mt-0.5"
+                      size={18}
+                      className="text-green-400 flex-shrink-0 mt-0.5"
                       variant="solid"
                     />
-                    <span className="text-sm text-foreground">{benefit}</span>
+                    <span className="text-sm text-white/70">{benefit}</span>
                   </li>
                 ))}
               </ul>

@@ -645,7 +645,7 @@ export default function ProductsInteractive() {
               <Icon
                 name="MagnifyingGlassIcon"
                 size={20}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/40"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/40 z-10"
               />
               <input
                 type="text"

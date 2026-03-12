@@ -62,11 +62,7 @@ const StoryFilters = ({ onFilterChange }: StoryFiltersProps) => {
 
   const handleFilterChange = (category: keyof FilterState, value: string) => {
     if (!isHydrated) return;
-
-    const newFilters = {
-      ...activeFilters,
-      [category]: value,
-    };
+    const newFilters = { ...activeFilters, [category]: value };
     setActiveFilters(newFilters);
     onFilterChange(newFilters);
   };
@@ -78,42 +74,38 @@ const StoryFilters = ({ onFilterChange }: StoryFiltersProps) => {
 
   const resetFilters = () => {
     if (!isHydrated) return;
-
-    const resetState = {
-      industry: "all",
-      region: "all",
-      useCase: "all",
-    };
+    const resetState = { industry: "all", region: "all", useCase: "all" };
     setActiveFilters(resetState);
     onFilterChange(resetState);
   };
 
   const activeFilterCount = Object.values(activeFilters).filter(
-    (v) => v !== "all",
+    (v) => v !== "all"
   ).length;
 
   if (!isHydrated) {
     return (
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl border border-white/10 p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-foreground">Filters</h3>
+          <h3 className="text-lg font-semibold text-white">Filters</h3>
         </div>
         <div className="space-y-4">
-          <div className="h-10 bg-muted rounded animate-pulse"></div>
-          <div className="h-10 bg-muted rounded animate-pulse"></div>
-          <div className="h-10 bg-muted rounded animate-pulse"></div>
+          <div className="h-10 bg-[#1B365D]/30 rounded-xl animate-pulse"></div>
+          <div className="h-10 bg-[#1B365D]/30 rounded-xl animate-pulse"></div>
+          <div className="h-10 bg-[#1B365D]/30 rounded-xl animate-pulse"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-card rounded-lg border border-border p-6">
+    <div className="backdrop-blur-xl bg-[#1B365D]/20 rounded-2xl border border-white/10 p-6">
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-2">
-          <h3 className="text-lg font-semibold text-foreground">Filters</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-white">Filters</h3>
           {activeFilterCount > 0 && (
-            <span className="px-2 py-1 text-xs font-medium bg-accent text-accent-foreground rounded-full">
+            <span className="px-2 py-0.5 text-xs font-semibold bg-[#0EA5E9]/10 text-[#0EA5E9] border border-[#0EA5E9]/30 rounded-full">
               {activeFilterCount}
             </span>
           )}
@@ -121,39 +113,39 @@ const StoryFilters = ({ onFilterChange }: StoryFiltersProps) => {
         {activeFilterCount > 0 && (
           <button
             onClick={resetFilters}
-            className="text-sm text-accent hover:text-accent/80 font-medium transition-colors duration-300"
+            className="text-xs text-[#0EA5E9] hover:text-white font-medium transition-colors duration-300"
           >
             Reset All
           </button>
         )}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-1">
         {/* Industry Filter */}
-        <div className="border-b border-border pb-4">
+        <div className="border-b border-white/10 pb-4 mb-2">
           <button
             onClick={() => toggleSection("industry")}
-            className="w-full flex items-center justify-between text-left mb-3"
+            className="w-full flex items-center justify-between text-left py-2 group"
           >
-            <span className="text-sm font-semibold text-foreground">
+            <span className="text-sm font-semibold text-white group-hover:text-[#0EA5E9] transition-colors duration-300">
               Industry
             </span>
             <Icon
               name="ChevronDownIcon"
-              size={20}
-              className={`text-muted-foreground transition-transform duration-300 ${
+              size={18}
+              className={`text-white/40 transition-transform duration-300 ${
                 expandedSection === "industry" ? "rotate-180" : ""
               }`}
             />
           </button>
           {expandedSection === "industry" && (
-            <div className="space-y-2 animate-slide-in-from-top">
+            <div className="mt-2 space-y-2">
               {industries.map((industry) => (
                 <label
                   key={industry.id}
                   className="flex items-center justify-between cursor-pointer group"
                 >
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center gap-3">
                     <input
                       type="radio"
                       name="industry"
@@ -162,15 +154,19 @@ const StoryFilters = ({ onFilterChange }: StoryFiltersProps) => {
                       onChange={(e) =>
                         handleFilterChange("industry", e.target.value)
                       }
-                      className="w-4 h-4 text-accent border-border focus:ring-accent focus:ring-2"
+                      className="w-4 h-4 accent-[#0EA5E9]"
                     />
-                    <span className="text-sm text-foreground group-hover:text-accent transition-colors duration-300">
+                    <span
+                      className={`text-sm transition-colors duration-300 ${
+                        activeFilters.industry === industry.id
+                          ? "text-[#0EA5E9] font-medium"
+                          : "text-white/60 group-hover:text-white"
+                      }`}
+                    >
                       {industry.label}
                     </span>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    {industry.count}
-                  </span>
+                  <span className="text-xs text-white/30">{industry.count}</span>
                 </label>
               ))}
             </div>
@@ -178,30 +174,30 @@ const StoryFilters = ({ onFilterChange }: StoryFiltersProps) => {
         </div>
 
         {/* Region Filter */}
-        <div className="border-b border-border pb-4">
+        <div className="border-b border-white/10 pb-4 mb-2">
           <button
             onClick={() => toggleSection("region")}
-            className="w-full flex items-center justify-between text-left mb-3"
+            className="w-full flex items-center justify-between text-left py-2 group"
           >
-            <span className="text-sm font-semibold text-foreground">
+            <span className="text-sm font-semibold text-white group-hover:text-[#0EA5E9] transition-colors duration-300">
               Region
             </span>
             <Icon
               name="ChevronDownIcon"
-              size={20}
-              className={`text-muted-foreground transition-transform duration-300 ${
+              size={18}
+              className={`text-white/40 transition-transform duration-300 ${
                 expandedSection === "region" ? "rotate-180" : ""
               }`}
             />
           </button>
           {expandedSection === "region" && (
-            <div className="space-y-2 animate-slide-in-from-top">
+            <div className="mt-2 space-y-2">
               {regions.map((region) => (
                 <label
                   key={region.id}
                   className="flex items-center justify-between cursor-pointer group"
                 >
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center gap-3">
                     <input
                       type="radio"
                       name="region"
@@ -210,15 +206,19 @@ const StoryFilters = ({ onFilterChange }: StoryFiltersProps) => {
                       onChange={(e) =>
                         handleFilterChange("region", e.target.value)
                       }
-                      className="w-4 h-4 text-accent border-border focus:ring-accent focus:ring-2"
+                      className="w-4 h-4 accent-[#0EA5E9]"
                     />
-                    <span className="text-sm text-foreground group-hover:text-accent transition-colors duration-300">
+                    <span
+                      className={`text-sm transition-colors duration-300 ${
+                        activeFilters.region === region.id
+                          ? "text-[#0EA5E9] font-medium"
+                          : "text-white/60 group-hover:text-white"
+                      }`}
+                    >
                       {region.label}
                     </span>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    {region.count}
-                  </span>
+                  <span className="text-xs text-white/30">{region.count}</span>
                 </label>
               ))}
             </div>
@@ -229,27 +229,27 @@ const StoryFilters = ({ onFilterChange }: StoryFiltersProps) => {
         <div>
           <button
             onClick={() => toggleSection("useCase")}
-            className="w-full flex items-center justify-between text-left mb-3"
+            className="w-full flex items-center justify-between text-left py-2 group"
           >
-            <span className="text-sm font-semibold text-foreground">
+            <span className="text-sm font-semibold text-white group-hover:text-[#0EA5E9] transition-colors duration-300">
               Use Case
             </span>
             <Icon
               name="ChevronDownIcon"
-              size={20}
-              className={`text-muted-foreground transition-transform duration-300 ${
+              size={18}
+              className={`text-white/40 transition-transform duration-300 ${
                 expandedSection === "useCase" ? "rotate-180" : ""
               }`}
             />
           </button>
           {expandedSection === "useCase" && (
-            <div className="space-y-2 animate-slide-in-from-top">
+            <div className="mt-2 space-y-2">
               {useCases.map((useCase) => (
                 <label
                   key={useCase.id}
                   className="flex items-center justify-between cursor-pointer group"
                 >
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center gap-3">
                     <input
                       type="radio"
                       name="useCase"
@@ -258,15 +258,19 @@ const StoryFilters = ({ onFilterChange }: StoryFiltersProps) => {
                       onChange={(e) =>
                         handleFilterChange("useCase", e.target.value)
                       }
-                      className="w-4 h-4 text-accent border-border focus:ring-accent focus:ring-2"
+                      className="w-4 h-4 accent-[#0EA5E9]"
                     />
-                    <span className="text-sm text-foreground group-hover:text-accent transition-colors duration-300">
+                    <span
+                      className={`text-sm transition-colors duration-300 ${
+                        activeFilters.useCase === useCase.id
+                          ? "text-[#0EA5E9] font-medium"
+                          : "text-white/60 group-hover:text-white"
+                      }`}
+                    >
                       {useCase.label}
                     </span>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    {useCase.count}
-                  </span>
+                  <span className="text-xs text-white/30">{useCase.count}</span>
                 </label>
               ))}
             </div>

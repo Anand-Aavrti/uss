@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function GlobalSupportPage() {
   return (
-    <div className="pt-[72px]">
-      <GlobalSupportInteractive />;
+    <div className="bg-[#0B1220]">
+      <GlobalSupportInteractive />
     </div>
   );
 }

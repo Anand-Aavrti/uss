@@ -10,10 +10,8 @@ export const metadata: Metadata = {
 
 export default function CustomerStoriesPage() {
   return (
-    <>
-      <main className="pt-[72px]">
-        <CustomerStoriesInteractive />
-      </main>
-    </>
+    <main className="bg-[#0B1220]">
+      <CustomerStoriesInteractive />
+    </main>
   );
 }
