@@ -28,6 +28,7 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [pendingTenantId, setPendingTenantId] = useState<string | null>(null);
 
   // API URLs - USS tenant/user creation (NOT MDM)
   const CREATE_TENANT_URL =
@@ -159,42 +160,49 @@ export default function AuthPage() {
     setLoading(true);
 
     try {
-      // Step 1: Create USS Tenant
-      setMessage('Creating your organization...');
+      let createdTenantId: string;
 
-      const tenantResponse = await fetch(CREATE_TENANT_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: FETCH_CREDENTIALS,
-        body: JSON.stringify({
-          displayName: displayName.replace(/\s+/g, ''),
-        }),
-      });
+      if (pendingTenantId) {
+        // Tenant already created in a previous attempt — skip Step 1
+        createdTenantId = pendingTenantId;
+        setMessage('Retrying account creation...');
+      } else {
+        // Step 1: Create USS Tenant
+        setMessage('Creating your organization...');
 
-      if (!tenantResponse.ok) {
-        let errorMessage = 'Failed to create tenant';
-        try {
-          const errorData = await tenantResponse.json();
-          errorMessage = errorData?.message || errorMessage;
-        } catch {
-          errorMessage = `Failed to create tenant (${tenantResponse.status})`;
+        const tenantResponse = await fetch(CREATE_TENANT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: FETCH_CREDENTIALS,
+          body: JSON.stringify({
+            displayName: displayName.replace(/\s+/g, ''),
+          }),
+        });
+
+        if (!tenantResponse.ok) {
+          let errorMessage = 'Failed to create tenant';
+          try {
+            const errorData = await tenantResponse.json();
+            errorMessage = errorData?.message || errorMessage;
+          } catch {
+            errorMessage = `Failed to create tenant (${tenantResponse.status})`;
+          }
+          throw new Error(errorMessage);
         }
-        throw new Error(errorMessage);
+
+        const tenantData = await tenantResponse.json();
+        console.log('✅ USS Tenant created:', tenantData);
+
+        const tenantName = tenantData?.tenantResponse?.name || tenantData?.name;
+        if (!tenantName) {
+          throw new Error('Tenant creation returned unexpected payload');
+        }
+
+        createdTenantId = tenantName.split('/').pop();
+        console.log('✅ USS Tenant ID:', createdTenantId);
       }
-
-      const tenantData = await tenantResponse.json();
-      console.log('✅ USS Tenant created:', tenantData);
-
-      // Extract tenant ID from response
-      const tenantName = tenantData?.tenantResponse?.name || tenantData?.name;
-      if (!tenantName) {
-        throw new Error('Tenant creation returned unexpected payload');
-      }
-
-      const createdTenantId = tenantName.split('/').pop();
-      console.log('✅ USS Tenant ID:', createdTenantId);
 
       // Step 2: Create USS User
       setMessage('Creating your admin account...');
@@ -214,32 +222,33 @@ export default function AuthPage() {
       });
 
       if (!userResponse.ok) {
-        let errorMessage = 'Failed to create user';
+        let errorMessage = 'Failed to create user account';
         try {
           const errorData = await userResponse.json();
           errorMessage = errorData?.message || errorMessage;
         } catch {
-          errorMessage = `Failed to create user (${userResponse.status})`;
+          errorMessage = `Failed to create user account (${userResponse.status})`;
         }
+        // Tenant was created — save its ID so the user can retry Step 2 without creating a duplicate tenant
+        setPendingTenantId(createdTenantId);
         throw new Error(errorMessage);
       }
 
       const userData = await userResponse.json();
       console.log('✅ USS User created:', userData);
 
-      // Success!
+      // Success — clear any pending retry state
+      setPendingTenantId(null);
       setMessage(
         `✅ Account created successfully! A password has been sent to ${email}. Please check your inbox and login.`
       );
 
-      // Clear form
       setDisplayName('');
       setEmail('');
 
-      // Switch to login mode after 3 seconds
       setTimeout(() => {
         setMode('login');
-        setTenantId(createdTenantId); // Pre-fill tenant ID for convenience
+        setTenantId(createdTenantId);
         setMessage('');
       }, 3000);
     } catch (err: any) {
@@ -343,6 +352,14 @@ export default function AuthPage() {
           </div>
 
           {/* Alerts */}
+          {pendingTenantId && (
+            <div className="mb-4 sm:mb-6 rounded-xl border border-yellow-500/40 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-300 backdrop-blur-sm">
+              <p className="font-semibold mb-1">Your organization was created but account setup failed.</p>
+              <p>Organization ID: <span className="font-mono text-yellow-200">{pendingTenantId}</span></p>
+              <p className="mt-1">Please correct your email address and click <strong>Create Account</strong> to complete setup. Your organization name is reserved.</p>
+            </div>
+          )}
+
           {error && (
             <div className="mb-4 sm:mb-6 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-400 backdrop-blur-sm">
               {error}
@@ -480,6 +497,7 @@ export default function AuthPage() {
                     setDisplayName('');
                     setTenantId('');
                     setPassword('');
+                    setPendingTenantId(null);
                   }}
                   className="text-[#00f5ff] font-semibold hover:underline transition"
                 >
@@ -496,6 +514,7 @@ export default function AuthPage() {
                     setMessage('');
                     setDisplayName('');
                     setPassword('');
+                    setPendingTenantId(null);
                   }}
                   className="text-[#00f5ff] font-semibold hover:underline transition"
                 >
