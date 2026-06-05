@@ -18,11 +18,11 @@ import { getStoredRefreshToken, updateStoredToken } from './authService';
 const WITH_CREDENTIALS = typeof window !== 'undefined' && window.location.protocol === 'https:';
 
 const AUTH_BASE =
-  'https://us-central1-mdm-aavrti-engine.cloudfunctions.net/authenticationtest/api/v1/authentication';
+  'https://yantramatrix-51nvouet.uc.gateway.dev/authenticationtest/api/v1/authentication';
 
 const DEVICE_BASE =
   process.env.NEXT_PUBLIC_DEVICE_API_BASE_URL ||
-  'https://us-central1-mdm-aavrti-engine.cloudfunctions.net/deviceControl/api/v1';
+  'https://yantramatrix-51nvouet.uc.gateway.dev/deviceControl/api/v1';
 
 // ---------------------------------------------------------------------------
 // In-memory access token (Bearer mode, alongside cookie mode)

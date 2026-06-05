@@ -11,7 +11,7 @@ const USS_USER_KEY = 'uss_user';
 const USS_REFRESH_KEY = 'uss_refresh_token';
 
 const AUTH_BASE =
-  'https://us-central1-mdm-aavrti-engine.cloudfunctions.net/authenticationtest/api/v1/authentication';
+  'https://yantramatrix-51nvouet.uc.gateway.dev/authenticationtest/api/v1/authentication';
 
 const REFRESH_TOKEN_URL = `${AUTH_BASE}/refreshToken`;
 const SESSION_URL = `${AUTH_BASE}/session`;

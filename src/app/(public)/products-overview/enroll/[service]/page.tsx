@@ -26,7 +26,7 @@ type EnrollmentFormData = {
 };
 
 const SERVICE_API_URL =
-  'https://us-central1-mdm-aavrti-engine.cloudfunctions.net/service/api/v1/service';
+  'https://yantramatrix-51nvouet.uc.gateway.dev/service/api/v1/service';
 
 const serviceCatalog: Record<string, { name: string; subtitle: string; appUrl: string }> = {
   'uss-mdm': {
