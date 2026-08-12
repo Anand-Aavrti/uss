@@ -32,11 +32,11 @@ export default function AuthPage() {
 
   // API URLs - USS tenant/user creation (NOT MDM)
   const CREATE_TENANT_URL =
-    'https://yantramatrix-51nvouet.uc.gateway.dev/authenticationtest/api/v1/authentication/create-tenant';
+    'https://yantramatrix-51nvouet.uc.gateway.dev/authentication/api/v1/authentication/create-tenant';
   const CREATE_USER_URL =
     'https://yantramatrix-51nvouet.uc.gateway.dev/userControler/api/v1/user/create';
   const LOGIN_URL =
-    'https://yantramatrix-51nvouet.uc.gateway.dev/authenticationtest/api/v1/authentication/login';
+    'https://yantramatrix-51nvouet.uc.gateway.dev/authentication/api/v1/authentication/login';
 
   useEffect(() => {
     const urlMode = searchParams.get('mode');

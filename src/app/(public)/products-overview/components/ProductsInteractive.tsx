@@ -356,6 +356,7 @@ import ComparisonMatrix from './ComparisonMatrix';
 import FilterPanel from './FilterPanel';
 import ArchitectureDiagram from './ArchitectureDiagram';
 import Icon from '@/components/ui/AppIcon';
+import { MDM_OVERVIEW_URL } from '@/lib/ssoHandoff';
 
 interface ProductFeature {
   name: string;
@@ -394,7 +395,9 @@ const mockProducts: Product[] = [
     image: 'https://img.rocket.new/generatedImages/rocket_gen_img_mdm.png',
     alt: 'Clean dashboard showing managed mobile and desktop devices',
     category: 'Device Management',
-    appUrl: '/apps/mdm',
+    // Standalone MDM app on a sibling subdomain — the USS session is handed to it
+    // via the shared parent-domain cookies written in lib/ssoHandoff.ts.
+    appUrl: MDM_OVERVIEW_URL,
     features: [
       {
         name: 'Centralized Device Control',

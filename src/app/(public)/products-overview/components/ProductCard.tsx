@@ -238,10 +238,15 @@ interface ProductCardProps {
   isComparing: boolean;
 }
 
+type SessionUser = {
+  email?: string;
+  services?: string[];
+};
+
 export default function ProductCard({ product, onCompare, isComparing }: ProductCardProps) {
   const [isExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<'features' | 'specs' | 'integrations'>('features');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [session, setSession] = useState<SessionUser | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -249,12 +254,41 @@ export default function ProductCard({ product, onCompare, isComparing }: Product
     if (!ussUser) return;
 
     try {
-      const parsed = JSON.parse(ussUser);
-      setIsAuthenticated(Boolean(parsed?.email));
+      const parsed = JSON.parse(ussUser) as SessionUser;
+      if (parsed?.email) setSession(parsed);
     } catch {
       localStorage.removeItem('uss_user');
     }
   }, []);
+
+  const openApp = (url: string) => {
+    // Apps hosted on a sibling subdomain need a real navigation — next/router
+    // only handles in-app routes. The shared session cookies travel with it.
+    if (/^https?:\/\//.test(url)) {
+      window.location.assign(url);
+      return;
+    }
+    router.push(url);
+  };
+
+  const handleOpenApp = () => {
+    // No session yet — sign in first, then land back on the products page.
+    if (!session) {
+      router.push(`/auth?redirect=/products-overview`);
+      return;
+    }
+
+    // Signed in — go straight to the app. The session travels with the user:
+    // in-app routes read localStorage, and the standalone MDM app picks up the
+    // shared parent-domain cookies written by lib/ssoHandoff.ts.
+    //
+    // Deliberately NOT gated on enrollment: the only source of "is enrolled" is
+    // a services[] array written locally after an enrollment POST, so it is
+    // empty on every fresh login and would wrongly divert enrolled users to the
+    // signup form. Re-add a gate here only once the backend reports enrolled
+    // services at login.
+    openApp(product.appUrl);
+  };
 
   const complexityColors = {
     Low: 'bg-[#0EA5E9]/10 text-[#0EA5E9] border-[#0EA5E9]/30',
@@ -311,15 +345,9 @@ export default function ProductCard({ product, onCompare, isComparing }: Product
           <span className="text-xs text-white/80 font-medium">{product.category}</span>
         </div>
 
-        {/* Expand/Collapse Button */}
+        {/* Open App / Enroll Button */}
         <button
-          onClick={() => {
-            if (isAuthenticated) {
-              router.push(`/products-overview/enroll/${product.id}`);
-              return;
-            }
-            router.push(product.appUrl);
-          }}
+          onClick={handleOpenApp}
           className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-white/5 text-white rounded-xl hover:bg-white/10 border border-white/10 transition-all duration-300"
         >
           <Icon name="ArrowTopRightOnSquareIcon" size={16} />

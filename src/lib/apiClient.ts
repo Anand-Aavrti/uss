@@ -18,7 +18,7 @@ import { getStoredRefreshToken, updateStoredToken } from './authService';
 const WITH_CREDENTIALS = typeof window !== 'undefined' && window.location.protocol === 'https:';
 
 const AUTH_BASE =
-  'https://yantramatrix-51nvouet.uc.gateway.dev/authenticationtest/api/v1/authentication';
+  'https://yantramatrix-51nvouet.uc.gateway.dev/authentication/api/v1/authentication';
 
 const DEVICE_BASE =
   process.env.NEXT_PUBLIC_DEVICE_API_BASE_URL ||

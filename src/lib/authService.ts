@@ -7,11 +7,13 @@
  *   uss_refresh_token — opaque refresh token string (kept separate for easy rotation)
  */
 
+import { clearSharedSession, shareSessionWithApps } from './ssoHandoff';
+
 const USS_USER_KEY = 'uss_user';
 const USS_REFRESH_KEY = 'uss_refresh_token';
 
 const AUTH_BASE =
-  'https://yantramatrix-51nvouet.uc.gateway.dev/authenticationtest/api/v1/authentication';
+  'https://yantramatrix-51nvouet.uc.gateway.dev/authentication/api/v1/authentication';
 
 const REFRESH_TOKEN_URL = `${AUTH_BASE}/refreshToken`;
 const SESSION_URL = `${AUTH_BASE}/session`;
@@ -93,6 +95,8 @@ export function getStoredRefreshToken(): string | null {
 export function saveAuthData(user: StoredUser, refreshToken: string): void {
   localStorage.setItem(USS_USER_KEY, JSON.stringify(user));
   localStorage.setItem(USS_REFRESH_KEY, refreshToken);
+  // Publish to the parent domain so sibling apps (MDM) share this session.
+  shareSessionWithApps(user.token, refreshToken);
 }
 
 /**
@@ -105,6 +109,8 @@ export function updateStoredToken(newToken: string, newRefreshToken: string): St
   const updated: StoredUser = { ...user, token: newToken };
   localStorage.setItem(USS_USER_KEY, JSON.stringify(updated));
   localStorage.setItem(USS_REFRESH_KEY, newRefreshToken);
+  // Keep the shared cookies in step with the rotated tokens.
+  shareSessionWithApps(newToken, newRefreshToken);
   return updated;
 }
 
@@ -112,6 +118,7 @@ export function updateStoredToken(newToken: string, newRefreshToken: string): St
 export function clearAuth(): void {
   localStorage.removeItem(USS_USER_KEY);
   localStorage.removeItem(USS_REFRESH_KEY);
+  clearSharedSession();
 }
 
 // ---------------------------------------------------------------------------
